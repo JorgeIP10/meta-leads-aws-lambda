@@ -6,10 +6,10 @@ from db.postgres.postgres_crud import PostgresCrud
 from handlers.sellers.seller_priority_data_structure import SellerPriorityDataStructure
 from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# # Load environment variables from the .env file
-# load_dotenv()
+# Load environment variables from the .env file
+load_dotenv()
 
 # Token de acceso de la página
 ACCESS_TOKEN_PAGE = os.getenv('ACCESS_TOKEN_PAGE')
