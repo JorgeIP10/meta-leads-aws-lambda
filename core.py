@@ -39,10 +39,10 @@ def start_program():
     receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
     auxiliar_emails = [GMAIL_AUXILIAR_EMAIL_1, GMAIL_AUXILIAR_EMAIL_2]
 
-    email_sender.send_emails(receiver_emails,
-                              'Reporte de Leads y repartición de leads por vendedor',
-                              f'Se adjunta el reporte de leads y su repartición del día {START_DATE_STR}.',
-                              data_frame_list, attachment_paths)
+    # email_sender.send_emails(receiver_emails,
+    #                           'Reporte de Leads y repartición de leads por vendedor',
+    #                           f'Se adjunta el reporte de leads y su repartición del día {START_DATE_STR}.',
+    #                           data_frame_list, attachment_paths)
 
     email_sender.send_auxiliar_email(auxiliar_emails,
                                       'Reporte de Leads',
@@ -53,4 +53,4 @@ def start_program():
     new_leads_to_db = data_handler.transform_data_to_db()
 
     # Insertamos los nuevos leads en la base de datos
-    CRUD_CONNECTION.create(new_leads_to_db)
+    # CRUD_CONNECTION.create(new_leads_to_db)
