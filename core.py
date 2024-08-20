@@ -61,9 +61,10 @@ def start_program():
     filename_leads_sellers = f'LEADS_VENDEDORES_{"".join((START_DATE_STR.split("-")))}.xlsx'
 
     attachment_paths = [filename_leads, filename_leads_sellers]
-    # data_frame_list = [df_new_leads_to_email, df_sellers]
+    data_frame_list = [df_new_leads_to_email, df_sellers]
 
-    receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
+    # receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
+    receiver_emails = [GMAIL_AUXILIAR_EMAIL_1]
     auxiliar_emails = [GMAIL_AUXILIAR_EMAIL_1, GMAIL_AUXILIAR_EMAIL_2]
 
     # email_sender.send_emails(receiver_emails,
@@ -71,10 +72,10 @@ def start_program():
     #                           f'Se adjunta el reporte de leads y su repartición del día {START_DATE_STR}.',
     #                           data_frame_list, attachment_paths)
 
-    # email_sender.send_auxiliar_email(auxiliar_emails,
-    #                                   'Reporte de Leads',
-    #                                   f'Se enviaron los reportes de leads del día {START_DATE_STR}'
-    #                                   f' a {GMAIL_RECEIVER_EMAIL_1} y a {GMAIL_RECEIVER_EMAIL_2}.')
+    email_sender.send_auxiliar_email(auxiliar_emails,
+                                      'Reporte de Leads',
+                                      f'Se enviaron los reportes de leads del día {START_DATE_STR}'
+                                      f' a {GMAIL_RECEIVER_EMAIL_1} y a {GMAIL_RECEIVER_EMAIL_2}.')
 
     # Transformamos los nuevos leads a un formato compatible con la base de datos
     new_leads_to_db = data_handler.transform_data_to_db()
