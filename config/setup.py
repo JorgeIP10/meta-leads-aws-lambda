@@ -7,7 +7,7 @@ from handlers.sellers.seller_priority_data_structure import SellerPriorityDataSt
 from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
 # from dotenv import load_dotenv
-#
+
 # # Load environment variables from the .env file
 # load_dotenv()
 
@@ -67,4 +67,4 @@ SELLERS_DATA_STRUCTURE = SellerPriorityDataStructure(SellersQueueHandler(sellers
 SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_1, 'name': SELLER_NAME_1}, 2)
 SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_2, 'name': SELLER_NAME_2}, 2)
 SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_3, 'name': SELLER_NAME_3}, 2)
-SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_4, 'name': SELLER_NAME_4, 'additional_leads': 2}, 1)
+SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_4, 'name': SELLER_NAME_4}, 2)
