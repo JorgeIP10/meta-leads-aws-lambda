@@ -1,6 +1,5 @@
 from handlers.request_handler import RequestHandler
 from handlers.data_handler import DataHandler
-from services.leads_email_sender import LeadEmailSender
 from config.setup import (ACCESS_TOKEN_PAGE, PAGE_ID, URL_BASE, START_DATE_STR,
                           END_DATE_STR, CRUD_CONNECTION, SELLERS_DATA_STRUCTURE, LEAD_EMAIL_SENDER,
                           RECEIVER_EMAILS, CONFIRMATION_EMAILS, HTML_TEMPLATE_RENDERER, ATTACHMENT_PATHS,
@@ -49,7 +48,7 @@ def start_program():
     # df_new_leads_to_email, df_sellers = data_handler.get_dataframes_to_email()
     # [df_new_leads_to_email, df_sellers], exec_time = measure_execution_time(data_handler.get_dataframes_to_email)
     # print(f"Tiempo de ejecución de get_dataframes_to_email(): {exec_time:.6f} segundos")
-    ([dict_lead_detail_to_email,dict_lead_sellers_to_email],
+    ([dict_lead_detail_to_email, dict_lead_sellers_to_email],
      exec_time) = measure_execution_time(data_handler.get_dataframes_to_email)
     print(f"Tiempo de ejecución de get_dataframes_to_email(): {exec_time:.6f} segundos")
 
@@ -59,7 +58,7 @@ def start_program():
 
     LEAD_EMAIL_SENDER.send_lead_emails(LEAD_EMAIL_SUBJECT,
                                        LEAD_EMAIL_BODY + html_content,
-                                       CONFIRMATION_EMAILS,
+                                       RECEIVER_EMAILS,
                                        list_of_list_of_dictionaries,
                                        ATTACHMENT_PATHS)
 
@@ -71,4 +70,4 @@ def start_program():
     new_leads_to_db = data_handler.transform_data_to_db()
 
     # Insertamos los nuevos leads en la base de datos
-    # CRUD_CONNECTION.create(new_leads_to_db)
+    CRUD_CONNECTION.create(new_leads_to_db)

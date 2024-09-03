@@ -12,7 +12,7 @@ from services.leads_email_sender import LeadEmailSender
 from templates.html_template_renderer import HTMLTemplateRenderer
 
 # Load environment variables from the .env file
-load_dotenv()
+# load_dotenv()
 
 # Token de acceso de la página
 ACCESS_TOKEN_PAGE = os.getenv('ACCESS_TOKEN_PAGE')
@@ -89,8 +89,7 @@ LEAD_EMAIL_SENDER = LeadEmailSender('smtp.gmail.com',
                                     GMAIL_SENDER_EMAIL,
                                     GMAIL_SENDER_PASSWORD)
 
-# RECEIVER_EMAILS = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
-RECEIVER_EMAILS = [GMAIL_CONFIRMATION_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_2]
+RECEIVER_EMAILS = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
 CONFIRMATION_EMAILS = [GMAIL_CONFIRMATION_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_2]
 
 # Asunto y cuerpo del correo
