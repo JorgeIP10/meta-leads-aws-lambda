@@ -270,11 +270,14 @@ class DataHandler:
         self.df_new_leads.sort_values(by='Fecha de registro', inplace=True)
 
         df_new_leads_to_email = self.df_new_leads.drop(columns=['Vendedor_ID'])
+        dict_lead_detail_to_email = {'dataframe': df_new_leads_to_email, 'sheet_name': 'Detalle'}
 
         dict_sellers_df = pd.DataFrame(self.dict_sellers.items(), columns=['Vendedor', 'Leads'])
+        dict_lead_sellers_to_email = {'dataframe': dict_sellers_df, 'sheet_name': 'Resumen'}
 
-        return df_new_leads_to_email, dict_sellers_df
+        return dict_lead_detail_to_email, dict_lead_sellers_to_email
 
+    # Método sin utilizar en el programa principal
     def export_to_excel(self, start_date_str, end_date_str):
         self.df_new_leads.sort_values(by='Fecha de registro', inplace=True)
         df_new_leads_to_excel = self.df_new_leads.drop(columns=['Vendedor_ID'])

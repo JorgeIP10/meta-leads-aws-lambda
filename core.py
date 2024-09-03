@@ -1,11 +1,10 @@
 from handlers.request_handler import RequestHandler
 from handlers.data_handler import DataHandler
-from services.email_sender import EmailSender
+from services.leads_email_sender import LeadEmailSender
 from config.setup import (ACCESS_TOKEN_PAGE, PAGE_ID, URL_BASE, START_DATE_STR,
-                          END_DATE_STR, GMAIL_SENDER_EMAIL, GMAIL_SENDER_PASSWORD,
-                          GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2,
-                          GMAIL_AUXILIAR_EMAIL_1, GMAIL_AUXILIAR_EMAIL_2,
-                          CRUD_CONNECTION, SELLERS_DATA_STRUCTURE)
+                          END_DATE_STR, CRUD_CONNECTION, SELLERS_DATA_STRUCTURE, LEAD_EMAIL_SENDER,
+                          RECEIVER_EMAILS, CONFIRMATION_EMAILS, HTML_TEMPLATE_RENDERER, ATTACHMENT_PATHS,
+                          LEAD_EMAIL_SUBJECT, LEAD_EMAIL_BODY, CONFIRMATION_EMAIL_SUBJECT, CONFIRMATION_EMAIL_BODY)
 import time
 
 
@@ -48,36 +47,28 @@ def start_program():
 
     # Obtenemos los DataFrames para enviar por correo
     # df_new_leads_to_email, df_sellers = data_handler.get_dataframes_to_email()
-    [df_new_leads_to_email, df_sellers], exec_time = measure_execution_time(data_handler.get_dataframes_to_email)
+    # [df_new_leads_to_email, df_sellers], exec_time = measure_execution_time(data_handler.get_dataframes_to_email)
+    # print(f"Tiempo de ejecución de get_dataframes_to_email(): {exec_time:.6f} segundos")
+    ([dict_lead_detail_to_email,dict_lead_sellers_to_email],
+     exec_time) = measure_execution_time(data_handler.get_dataframes_to_email)
     print(f"Tiempo de ejecución de get_dataframes_to_email(): {exec_time:.6f} segundos")
 
-    # Creamos un objeto EmailSender con las credenciales de la cuenta de Gmail
-    email_sender = EmailSender('smtp.gmail.com',
-                               465,
-                               GMAIL_SENDER_EMAIL,
-                               GMAIL_SENDER_PASSWORD)
+    list_of_list_of_dictionaries = [[dict_lead_detail_to_email, dict_lead_sellers_to_email]]
 
-    filename_leads = f'LEADS_{"".join((START_DATE_STR.split("-")))}.xlsx'
-    filename_leads_sellers = f'LEADS_VENDEDORES_{"".join((START_DATE_STR.split("-")))}.xlsx'
+    html_content = HTML_TEMPLATE_RENDERER.render(dict_lead_sellers_to_email['dataframe'])
 
-    attachment_paths = [filename_leads, filename_leads_sellers]
-    data_frame_list = [df_new_leads_to_email, df_sellers]
+    LEAD_EMAIL_SENDER.send_lead_emails(LEAD_EMAIL_SUBJECT,
+                                       LEAD_EMAIL_BODY + html_content,
+                                       CONFIRMATION_EMAILS,
+                                       list_of_list_of_dictionaries,
+                                       ATTACHMENT_PATHS)
 
-    receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
-    auxiliar_emails = [GMAIL_AUXILIAR_EMAIL_1, GMAIL_AUXILIAR_EMAIL_2]
-
-    email_sender.send_emails(receiver_emails,
-                              'Reporte de Leads y repartición de leads por vendedor',
-                              f'Se adjunta el reporte de leads y su repartición del día {START_DATE_STR}.',
-                              data_frame_list, attachment_paths)
-
-    email_sender.send_auxiliar_email(auxiliar_emails,
-                                      'Reporte de Leads',
-                                      f'Se enviaron los reportes de leads del día {START_DATE_STR}'
-                                      f' a {GMAIL_RECEIVER_EMAIL_1} y a {GMAIL_RECEIVER_EMAIL_2}.')
+    LEAD_EMAIL_SENDER.send_emails(CONFIRMATION_EMAIL_SUBJECT,
+                                  CONFIRMATION_EMAIL_BODY + html_content,
+                                  CONFIRMATION_EMAILS)
 
     # Transformamos los nuevos leads a un formato compatible con la base de datos
     new_leads_to_db = data_handler.transform_data_to_db()
 
     # Insertamos los nuevos leads en la base de datos
-    CRUD_CONNECTION.create(new_leads_to_db)
+    # CRUD_CONNECTION.create(new_leads_to_db)
