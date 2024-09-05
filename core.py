@@ -46,8 +46,6 @@ def start_program():
 
     # Obtenemos los DataFrames para enviar por correo
     # df_new_leads_to_email, df_sellers = data_handler.get_dataframes_to_email()
-    # [df_new_leads_to_email, df_sellers], exec_time = measure_execution_time(data_handler.get_dataframes_to_email)
-    # print(f"Tiempo de ejecución de get_dataframes_to_email(): {exec_time:.6f} segundos")
     ([dict_lead_detail_to_email, dict_lead_sellers_to_email],
      exec_time) = measure_execution_time(data_handler.get_dataframes_to_email)
     print(f"Tiempo de ejecución de get_dataframes_to_email(): {exec_time:.6f} segundos")

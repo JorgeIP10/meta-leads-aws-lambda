@@ -18,11 +18,22 @@ class HTMLTemplateRenderer(TemplateRenderer):
         # Agregar filas con datos de cada vendedor
         for index, seller in context.iterrows():
             html_content += f'''
-            <tr>
-                <td style="padding: 8px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{seller['Vendedor']}</td>
-                <td style="padding: 8px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{seller['Leads']}</td>
-            </tr>
-            '''
+        <tr>
+            {(f'<td style="padding: 8px; background-color: #f2f2f2; text-align: center;">'
+              f'<b>{seller["Vendedor"]}</b>'
+              f'</td>'
+              f'<td style="padding: 8px; background-color: #f2f2f2; text-align: center;">'
+              f'<b>{seller["Leads"]}</b>'
+              f'</td>') if seller['Vendedor'] == 'TOTAL'
+            else
+            (f'<td style="padding: 8px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">'
+             f'{seller["Vendedor"]}'
+             f'</td>'
+            f'<td style="padding: 8px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">'
+             f'{seller["Leads"]}'
+             f'</td>')}
+        </tr>
+        '''
 
         # Cerrar la tabla
         html_content += '''

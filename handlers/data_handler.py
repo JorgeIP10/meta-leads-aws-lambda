@@ -89,9 +89,18 @@ class DataHandler:
             leads_by_seller = 1
             res_leads_by_seller = -1
             len_for = len_new_leads_to_distribute
-            # self.sellers_data_structure.remove_seller_priority_and_additional_leads()
             self.highest_priority_sellers_list = self.sellers_data_structure.priority_sellers_handler.remove_highest_priority()
         else:
+            # Hallamos la cantidad de leads fijos y la cantidad de vendedores con leads fijos
+            fixed_leads = 0
+            number_of_sellers_with_fixed_leads = 0
+            for seller in sellers_distribute:
+                if seller['fixed_amount_of_leads'] > 0:
+                    fixed_leads += seller['fixed_amount_of_leads']
+                    number_of_sellers_with_fixed_leads += 1
+
+            len_new_leads_to_distribute -= fixed_leads
+            len_sellers -= number_of_sellers_with_fixed_leads
             leads_by_seller = int(len_new_leads_to_distribute / len_sellers)
             res_leads_by_seller = len_new_leads_to_distribute % len_sellers
             len_for = res_leads_by_seller
@@ -115,19 +124,31 @@ class DataHandler:
                     len_for = res_leads_by_seller
                     exists_priority = True
 
-        sellers_distribute = self.sellers_data_structure.get_sellers_list() + self.highest_priority_sellers_list
+        sellers_distribute: list = self.sellers_data_structure.get_sellers_list() + self.highest_priority_sellers_list
+        sellers_with_fixed_amount_of_leads = []
+        indexes_to_remove = []
 
-        for seller in sellers_distribute:
+        for index, seller in enumerate(sellers_distribute):
             seller['is_chosen'] = False
             seller['is_eligible'] = True
 
-            if 'additional_leads' not in seller.keys():
-                seller['leads'] = leads_by_seller
-            else:
+            if seller['fixed_amount_of_leads'] > 0:
+                seller['leads'] = seller['fixed_amount_of_leads']
+                indexes_to_remove.append(index)
+                sellers_with_fixed_amount_of_leads.append(seller)
+            elif seller['additional_leads'] > 0:
                 if not exists_priority:
                     seller['leads'] = leads_by_seller
                 else:
                     seller['is_eligible'] = False
+            else:
+                seller['leads'] = leads_by_seller
+
+        # Se eliminan los vendedores con leads fijos
+        deleted_sellers = 0
+        for index in indexes_to_remove:
+            del sellers_distribute[index - deleted_sellers]
+            deleted_sellers += 1
 
         sellers_distribute_copy = copy.deepcopy(sellers_distribute)
         eligible_sellers = [seller for seller in sellers_distribute_copy if seller['is_eligible']]
@@ -144,6 +165,9 @@ class DataHandler:
 
         # Usar .loc[] para evitar SettingWithCopyWarning
         self.df_new_leads.loc[:, 'Vendedor'] = None
+
+        # Se agregan los vendedores con leads fijos
+        sellers_distribute_copy += sellers_with_fixed_amount_of_leads
 
         for seller in sellers_distribute_copy:
             seller['count'] = 0
@@ -224,7 +248,7 @@ class DataHandler:
                     break
 
                 if random_seller_leads['is_available']:
-                    print(f'Se aumenta un lead a {random_seller_leads["name"]}')
+                    print(f'{random_seller_leads["name"]} + 1')
                     sellers_distribute_copy_while[random_seller_index]['count'] += 1
 
                     self.df_new_leads.at[index, 'Vendedor'] = sellers_distribute_copy_while[random_seller_index]['name']
@@ -258,6 +282,7 @@ class DataHandler:
         for index, new_lead in self.df_new_leads.iterrows():
             self.dict_sellers[new_lead['Vendedor']] += 1
 
+        self.dict_sellers['TOTAL'] = total_count
         print(self.dict_sellers)
 
         dict_sellers_ids = {}
