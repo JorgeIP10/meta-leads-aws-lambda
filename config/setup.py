@@ -6,12 +6,11 @@ from db.postgres.postgres_crud import PostgresCrud
 from handlers.sellers.seller_priority_data_structure import SellerPriorityDataStructure
 from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
-from dotenv import load_dotenv
-
 from services.leads_email_sender import LeadEmailSender
 from templates.html_template_renderer import HTMLTemplateRenderer
+# from dotenv import load_dotenv
 
-# Load environment variables from the .env file
+# # Load environment variables from the .env file
 # load_dotenv()
 
 # Token de acceso de la página
@@ -72,11 +71,46 @@ SELLER_NAME_5 = os.getenv('SELLER_NAME_5')
 # Creamos una cola de prioridad para los vendedores
 sellers_queue = queue.PriorityQueue()
 SELLERS_DATA_STRUCTURE = SellerPriorityDataStructure(SellersQueueHandler(sellers_queue))
-SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_1, 'name': SELLER_NAME_1}, 2)
-SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_2, 'name': SELLER_NAME_2}, 2)
-SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_3, 'name': SELLER_NAME_3}, 2)
-SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_4, 'name': SELLER_NAME_4}, 2)
-SELLERS_DATA_STRUCTURE.add_seller({'id': SELLER_ID_5, 'name': SELLER_NAME_5}, 2)
+SELLERS_DATA_STRUCTURE.add_seller(
+    {
+        'id': SELLER_ID_1,
+        'name': SELLER_NAME_1,
+        'fixed_amount_of_leads': 1,
+        'additional_leads': 0
+    }, 2
+)
+SELLERS_DATA_STRUCTURE.add_seller(
+    {
+        'id': SELLER_ID_2,
+        'name': SELLER_NAME_2,
+        'fixed_amount_of_leads': 0,
+        'additional_leads': 0
+    }, 2
+)
+SELLERS_DATA_STRUCTURE.add_seller(
+    {
+        'id': SELLER_ID_3,
+        'name': SELLER_NAME_3,
+        'fixed_amount_of_leads': 0,
+        'additional_leads': 0
+    }, 2
+)
+SELLERS_DATA_STRUCTURE.add_seller(
+    {
+        'id': SELLER_ID_4,
+        'name': SELLER_NAME_4,
+        'fixed_amount_of_leads': 0,
+        'additional_leads': 0
+    }, 2
+)
+SELLERS_DATA_STRUCTURE.add_seller(
+    {
+        'id': SELLER_ID_5,
+        'name': SELLER_NAME_5,
+        'fixed_amount_of_leads': 0,
+        'additional_leads': 0
+    }, 2
+)
 
 # Nombres de los archivos adjuntos
 FILENAME_LEADS_DETAIL = f'LEADS_{"".join((START_DATE_STR.split("-")))}.xlsx'
