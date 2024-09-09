@@ -8,10 +8,10 @@ from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
 from services.leads_email_sender import LeadEmailSender
 from templates.html_template_renderer import HTMLTemplateRenderer
-from dotenv import load_dotenv
-
-# Load environment variables from the .env file
-load_dotenv()
+# from dotenv import load_dotenv
+#
+# # Load environment variables from the .env file
+# load_dotenv()
 
 # Token de acceso de la página
 ACCESS_TOKEN_PAGE = os.getenv('ACCESS_TOKEN_PAGE')
