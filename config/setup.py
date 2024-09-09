@@ -8,10 +8,10 @@ from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
 from services.leads_email_sender import LeadEmailSender
 from templates.html_template_renderer import HTMLTemplateRenderer
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# # Load environment variables from the .env file
-# load_dotenv()
+# Load environment variables from the .env file
+load_dotenv()
 
 # Token de acceso de la página
 ACCESS_TOKEN_PAGE = os.getenv('ACCESS_TOKEN_PAGE')
@@ -67,6 +67,8 @@ SELLER_ID_4 = int(os.getenv('SELLER_ID_4'))
 SELLER_NAME_4 = os.getenv('SELLER_NAME_4')
 SELLER_ID_5 = int(os.getenv('SELLER_ID_5'))
 SELLER_NAME_5 = os.getenv('SELLER_NAME_5')
+SELLER_ID_6 = int(os.getenv('SELLER_ID_6'))
+SELLER_NAME_6 = os.getenv('SELLER_NAME_6')
 
 # Creamos una cola de prioridad para los vendedores
 sellers_queue = queue.PriorityQueue()
@@ -110,6 +112,14 @@ SELLERS_DATA_STRUCTURE.add_seller(
         'fixed_amount_of_leads': 0,
         'additional_leads': 0
     }, 2
+)
+SELLERS_DATA_STRUCTURE.add_seller(
+    {
+        'id': SELLER_ID_6,
+        'name': SELLER_NAME_6,
+        'fixed_amount_of_leads': 0,
+        'additional_leads': 2
+    }, 1
 )
 
 # Nombres de los archivos adjuntos

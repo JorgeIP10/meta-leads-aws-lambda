@@ -68,4 +68,4 @@ def start_program():
     new_leads_to_db = data_handler.transform_data_to_db()
 
     # Insertamos los nuevos leads en la base de datos
-    CRUD_CONNECTION.create(new_leads_to_db)
+    # CRUD_CONNECTION.create(new_leads_to_db)
