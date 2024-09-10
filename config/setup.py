@@ -117,9 +117,9 @@ SELLERS_DATA_STRUCTURE.add_seller(
     {
         'id': SELLER_ID_6,
         'name': SELLER_NAME_6,
-        'fixed_amount_of_leads': 0,
-        'additional_leads': 2
-    }, 1
+        'fixed_amount_of_leads': 2,
+        'additional_leads': 0
+    }, 2
 )
 
 # Nombres de los archivos adjuntos
