@@ -68,8 +68,6 @@ SELLER_ID_4 = int(os.getenv('SELLER_ID_4'))
 SELLER_NAME_4 = os.getenv('SELLER_NAME_4')
 SELLER_ID_5 = int(os.getenv('SELLER_ID_5'))
 SELLER_NAME_5 = os.getenv('SELLER_NAME_5')
-SELLER_ID_6 = int(os.getenv('SELLER_ID_6'))
-SELLER_NAME_6 = os.getenv('SELLER_NAME_6')
 
 # Creamos una cola de prioridad para los vendedores
 sellers_queue = queue.PriorityQueue()
@@ -111,14 +109,6 @@ SELLERS_DATA_STRUCTURE.add_seller(
         'id': SELLER_ID_5,
         'name': SELLER_NAME_5,
         'fixed_amount_of_leads': 0,
-        'additional_leads': 0
-    }, 2
-)
-SELLERS_DATA_STRUCTURE.add_seller(
-    {
-        'id': SELLER_ID_6,
-        'name': SELLER_NAME_6,
-        'fixed_amount_of_leads': 2,
         'additional_leads': 0
     }, 2
 )
