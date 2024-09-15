@@ -7,10 +7,8 @@ class RequestHandler:
         self.access_token_page = access_token_page
         self.page_id = page_id
         self.url_base = url_base
-        # self.url_form = f"{url_base}/{page_id}/leadgen_forms?access_token={self.access_token_page}"
         self.url_form = f"{url_base}/{page_id}/leadgen_forms"
         self.params_all_forms, self.params_form, self.params_leads = self.set_params()
-        # self.params_leads = self.set_params()
 
     def set_params(self):
         self.params_all_forms = {
@@ -21,7 +19,6 @@ class RequestHandler:
         self.params_form = {
             'access_token': self.access_token_page,
             'limit': 100,
-            # 'fields': 'id,name,context_card,status'
             'fields': 'id,name,status'
         }
 
@@ -32,17 +29,10 @@ class RequestHandler:
         }
 
         return self.params_all_forms, self.params_form, self.params_leads
-        # return self.params_leads
 
     def get_forms(self):
-        print(self.url_form)
         # Realizamos una solicitud GET a la API
-        # response = requests.get(self.url_form, params=self.params_forms)
-        # response = requests.get(self.url_form)
         response = requests.get(self.url_form, params=self.params_all_forms)
-        print(response)
-        print(response.json())
-        print('aña causa')
 
         forms = []
 
@@ -69,17 +59,8 @@ class RequestHandler:
         return forms
 
     def get_forms_by_id(self, forms, form, form_id):
-        # form_url = f"{self.url_base}/{form_id}?access_token={self.access_token_page}"
         form_url = f"{self.url_base}/{form_id}"
-        print(form_url)
-        # form_response = requests.get(form_url, params={
-        #     # 'access_token': self.access_token_page,
-        #     # 'fields': 'context_card'
-        #     'fields': 'id,name,status'
-        # })
         form_response = requests.get(form_url, self.params_form)
-        # form_response = requests.get(form_url)
-        print(form_response.json())
 
         if form_response.status_code == 200:
             form_data = form_response.json()
@@ -106,7 +87,6 @@ class RequestHandler:
             form_name = form['name']
             preview_title = form['preview_title']
 
-            # url = f"{self.url_base}/{form_id}/leads?access_token={self.access_token_page}"
             url = f"{self.url_base}/{form_id}/leads"
             response = requests.get(url, params=self.params_leads)
 
