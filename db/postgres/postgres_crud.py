@@ -38,12 +38,35 @@ class PostgresCrud(DBCrud):
 
         return historical_leads
 
+    def create_person(self, new_person_to_db):
+        for index, row in new_person_to_db.iterrows():
+            self.db_connection.cursor.execute("""INSERT INTO tbl_persona (
+            tdo_id,
+            per_numero_documento,
+            per_nombre,
+            per_apellido_paterno,
+            per_apellido_materno,
+            per_telefono,
+            per_correo
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (1,
+                  row['DNI'],
+                  row['Nombres'],
+                  row['Apellido paterno'],
+                  row['Apellido materno'],
+                  row['Celular'],
+                  row['Correo']))
+
+        self.db_connection.connection.commit()
+
+        print('Registros insertados correctamente.')
+
     def create(self, new_leads_to_db):
         for index, row in new_leads_to_db.iterrows():
             self.db_connection.cursor.execute("""INSERT INTO meta_leads (
             ml_red_social,
             ml_formulario,
-            ml_diplomado,
             ml_nombre_persona,
             ml_ciudad_persona,
             ml_dni_persona,
@@ -53,13 +76,15 @@ class PostgresCrud(DBCrud):
             ml_correo_persona,
             ml_fecha_registro,
             ml_fecha_descarga,
-            ml_vendedor_id
+            ml_vendedor_id,
+            per_id
             )
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (row['Red social'],
                   row['Formulario'],
-                  None,
-                  row['Nombre completo'],
+                  row['Nombres'],
+                  row['Apellido paterno'],
+                  row['Apellido materno'],
                   row['Ciudad'],
                   row['DNI'],
                   row['Enfermero'],

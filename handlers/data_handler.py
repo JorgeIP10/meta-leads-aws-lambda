@@ -24,9 +24,11 @@ class DataHandler:
                 'platform': lead.get('platform', ''),
                 'form_name': lead.get('form_name', '').upper(),
                 'preview_title': lead.get('preview_title', '').upper(),
-                'full_name': '',
+                'nombre': '',
+                'apellido_paterno': '',
+                'apellido_materno': '',
                 'city': '',
-                'dni_(peru)': '',
+                'dni': '',
                 '¿eres_enfermero?': '',
                 '¿cuál_es_tu_nivel_de_estudios?': '',
                 'phone_number': '',
@@ -36,10 +38,7 @@ class DataHandler:
             }
 
             for field in lead.get('field_data', []):
-                if field['name'] == 'dni':
-                    lead_info['dni_(peru)'] = field['values'][0]
-                else:
-                    lead_info[field['name']] = field['values'][0]
+                lead_info[field['name']] = field['values'][0]
 
                 if field['name'] == 'phone_number' and field['values'][0].startswith('+51'):
                     lead_info[field['name']] = field['values'][0].split('+51')[1]
@@ -49,19 +48,22 @@ class DataHandler:
         # Crear DataFrame de pandas con los datos estructurados
         self.df_new_leads = pd.DataFrame(structured_data)
 
-        self.df_new_leads.rename(columns={'platform': 'Red social',
-                                          'form_name': 'Formulario',
-                                          'preview_title': 'Diplomado',
-                                          'full_name': 'Nombre completo',
-                                          'city': 'Ciudad',
-                                          'dni_(peru)': 'DNI',
-                                          '¿eres_enfermero?': 'Enfermero',
-                                          '¿cuál_es_tu_nivel_de_estudios?': 'Grado',
-                                          'phone_number': 'Celular',
-                                          'email': 'Correo',
-                                          'created_time': 'Fecha de registro',
-                                          'download_time': 'Fecha de descarga'
-                                          }, inplace=True)
+        self.df_new_leads.rename(columns={
+            'platform': 'Red social',
+            'form_name': 'Formulario',
+            'preview_title': 'Diplomado',
+            'nombre': 'Nombres',
+            'apellido_paterno': 'Apellido paterno',
+            'apellido_materno': 'Apellido materno',
+            'city': 'Ciudad',
+            'dni': 'DNI',
+            '¿eres_enfermero?': 'Enfermero',
+            '¿cuál_es_tu_nivel_de_estudios?': 'Grado',
+            'phone_number': 'Celular',
+            'email': 'Correo',
+            'created_time': 'Fecha de registro',
+            'download_time': 'Fecha de descarga'
+        }, inplace=True)
 
     def transform_data_to_db(self):
         def map_enfermero(value):

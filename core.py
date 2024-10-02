@@ -37,6 +37,7 @@ def start_program():
     print(f"Tiempo de ejecución de get_forms(): {exec_time:.6f} segundos")
     new_leads, exec_time = measure_execution_time(request_handler.get_leads, forms, START_DATE_STR, END_DATE_STR)
     print(f"Tiempo de ejecución de get_leads(): {exec_time:.6f} segundos")
+    print(new_leads)
 
     # Creamos un objeto DataHandler y transformamos los leads en un DataFrame
     data_handler = DataHandler(SELLERS_DATA_STRUCTURE, historical_leads, new_leads)
@@ -54,18 +55,18 @@ def start_program():
 
     html_content = HTML_TEMPLATE_RENDERER.render(dict_lead_sellers_to_email['dataframe'])
 
-    LEAD_EMAIL_SENDER.send_lead_emails(LEAD_EMAIL_SUBJECT,
-                                       LEAD_EMAIL_BODY + html_content,
-                                       RECEIVER_EMAILS,
-                                       list_of_list_of_dictionaries,
-                                       ATTACHMENT_PATHS)
-
-    LEAD_EMAIL_SENDER.send_emails(CONFIRMATION_EMAIL_SUBJECT,
-                                  CONFIRMATION_EMAIL_BODY + html_content,
-                                  CONFIRMATION_EMAILS)
+    # LEAD_EMAIL_SENDER.send_lead_emails(LEAD_EMAIL_SUBJECT,
+    #                                    LEAD_EMAIL_BODY + html_content,
+    #                                    RECEIVER_EMAILS,
+    #                                    list_of_list_of_dictionaries,
+    #                                    ATTACHMENT_PATHS)
+    #
+    # LEAD_EMAIL_SENDER.send_emails(CONFIRMATION_EMAIL_SUBJECT,
+    #                               CONFIRMATION_EMAIL_BODY + html_content,
+    #                               CONFIRMATION_EMAILS)
 
     # Transformamos los nuevos leads a un formato compatible con la base de datos
     new_leads_to_db = data_handler.transform_data_to_db()
 
     # Insertamos los nuevos leads en la base de datos
-    CRUD_CONNECTION.create(new_leads_to_db)
+    # CRUD_CONNECTION.create(new_leads_to_db)
