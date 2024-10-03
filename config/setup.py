@@ -2,16 +2,17 @@ import os
 from datetime import datetime, timedelta
 from db.postgres.postgres_connection import PostgresConnection
 import psycopg2
-from db.postgres.postgres_crud import PostgresCrud
+from db.postgres.postgres_leads_crud import PostgresLeadsCrud
+from db.postgres.postgres_person_crud import PostgresPersonCrud
 from handlers.sellers.seller_priority_data_structure import SellerPriorityDataStructure
 from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
 from services.leads_email_sender import LeadEmailSender
 from templates.html_template_renderer import HTMLTemplateRenderer
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-# Load environment variables from the .env file
-load_dotenv()
+# # Load environment variables from the .env file
+# load_dotenv()
 
 # Token de acceso de la página
 ACCESS_TOKEN_PAGE = os.getenv('ACCESS_TOKEN_PAGE')
@@ -55,7 +56,8 @@ CONNECTION = PostgresConnection(os.getenv('HOSTNAME'),
                                 psycopg2.connect
                                 )
 CONNECTION.create_connection_cursor()
-CRUD_CONNECTION = PostgresCrud(CONNECTION)
+PERSON_CRUD_CONNECTION = PostgresPersonCrud(CONNECTION)
+LEADS_CRUD_CONNECTION = PostgresLeadsCrud(CONNECTION, PERSON_CRUD_CONNECTION)
 
 # Obtenemos los datos de los vendedores
 SELLER_ID_1 = int(os.getenv('SELLER_ID_1'))

@@ -1,7 +1,7 @@
 from handlers.request_handler import RequestHandler
 from handlers.data_handler import DataHandler
 from config.setup import (ACCESS_TOKEN_PAGE, PAGE_ID, URL_BASE, START_DATE_STR,
-                          END_DATE_STR, CRUD_CONNECTION, SELLERS_DATA_STRUCTURE, LEAD_EMAIL_SENDER,
+                          END_DATE_STR, LEADS_CRUD_CONNECTION, SELLERS_DATA_STRUCTURE, LEAD_EMAIL_SENDER,
                           RECEIVER_EMAILS, CONFIRMATION_EMAILS, HTML_TEMPLATE_RENDERER, ATTACHMENT_PATHS,
                           LEAD_EMAIL_SUBJECT, LEAD_EMAIL_BODY, CONFIRMATION_EMAIL_SUBJECT, CONFIRMATION_EMAIL_BODY)
 import time
@@ -26,7 +26,7 @@ def measure_execution_time(func, *args, **kwargs):
 
 def start_program():
     # Obtenemos los leads cuyo vendedor coincide con alguno en la lista de vendedores
-    historical_leads = CRUD_CONNECTION.find_all_and_compare(SELLERS_DATA_STRUCTURE.get_sellers_list())
+    historical_leads = LEADS_CRUD_CONNECTION.find_all_and_compare(SELLERS_DATA_STRUCTURE.get_sellers_list())
 
     # Creamos un objeto RequestHandler y obtenemos los formularios y los leads
     request_handler = RequestHandler(ACCESS_TOKEN_PAGE, PAGE_ID, URL_BASE)
@@ -55,18 +55,18 @@ def start_program():
 
     html_content = HTML_TEMPLATE_RENDERER.render(dict_lead_sellers_to_email['dataframe'])
 
-    # LEAD_EMAIL_SENDER.send_lead_emails(LEAD_EMAIL_SUBJECT,
-    #                                    LEAD_EMAIL_BODY + html_content,
-    #                                    RECEIVER_EMAILS,
-    #                                    list_of_list_of_dictionaries,
-    #                                    ATTACHMENT_PATHS)
-    #
-    # LEAD_EMAIL_SENDER.send_emails(CONFIRMATION_EMAIL_SUBJECT,
-    #                               CONFIRMATION_EMAIL_BODY + html_content,
-    #                               CONFIRMATION_EMAILS)
+    LEAD_EMAIL_SENDER.send_lead_emails(LEAD_EMAIL_SUBJECT,
+                                       LEAD_EMAIL_BODY + html_content,
+                                       RECEIVER_EMAILS,
+                                       list_of_list_of_dictionaries,
+                                       ATTACHMENT_PATHS)
+
+    LEAD_EMAIL_SENDER.send_emails(CONFIRMATION_EMAIL_SUBJECT,
+                                  CONFIRMATION_EMAIL_BODY + html_content,
+                                  CONFIRMATION_EMAILS)
 
     # Transformamos los nuevos leads a un formato compatible con la base de datos
     new_leads_to_db = data_handler.transform_data_to_db()
 
     # Insertamos los nuevos leads en la base de datos
-    # CRUD_CONNECTION.create(new_leads_to_db)
+    LEADS_CRUD_CONNECTION.create(new_leads_to_db)
