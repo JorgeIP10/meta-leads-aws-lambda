@@ -13,6 +13,8 @@ class DataHandler:
         self.highest_priority_sellers_count = 0
         self.highest_priority_sellers_list = []
         self.leads_with_priority = 0
+        self.created_time_name_str = 'Fecha de registro'
+        self.download_time_name_str = 'Fecha de descarga'
 
     def new_leads_to_dataframe(self):
 
@@ -21,20 +23,21 @@ class DataHandler:
 
         for lead in self.new_leads:
             lead_info = {
-                'platform': lead.get('platform', ''),
                 'form_name': lead.get('form_name', '').upper(),
                 'preview_title': lead.get('preview_title', '').upper(),
+                'download_time': lead.get('download_time', ''),
+                'platform': lead.get('platform', ''),
+                '¿cuál_es_tu_nivel_de_estudios?': '',
+                '¿eres_enfermero?': '',
                 'nombre': '',
                 'apellido_paterno': '',
                 'apellido_materno': '',
-                'city': '',
-                'dni': '',
-                '¿eres_enfermero?': '',
-                '¿cuál_es_tu_nivel_de_estudios?': '',
-                'phone_number': '',
+                'full_name': '',
                 'email': '',
-                'created_time': lead.get('created_time', ''),
-                'download_time': lead.get('download_time', '')
+                'city': '',
+                'phone_number': '',
+                'dni': '',
+                'created_time': lead.get('created_time', '')
             }
 
             for field in lead.get('field_data', []):
@@ -43,6 +46,9 @@ class DataHandler:
                 if field['name'] == 'phone_number' and field['values'][0].startswith('+51'):
                     lead_info[field['name']] = field['values'][0].split('+51')[1]
 
+            lead_info['full_name'] = (f"{lead_info['nombre']} "
+                                      f"{lead_info['apellido_paterno']} "
+                                      f"{lead_info['apellido_materno']}")
             structured_data.append(lead_info)
 
         # Crear DataFrame de pandas con los datos estructurados
@@ -52,7 +58,8 @@ class DataHandler:
             'platform': 'Red social',
             'form_name': 'Formulario',
             'preview_title': 'Diplomado',
-            'nombre': 'Nombres',
+            'full_name': 'Nombre completo',
+            'nombre': 'Nombre',
             'apellido_paterno': 'Apellido paterno',
             'apellido_materno': 'Apellido materno',
             'city': 'Ciudad',
@@ -61,8 +68,8 @@ class DataHandler:
             '¿cuál_es_tu_nivel_de_estudios?': 'Grado',
             'phone_number': 'Celular',
             'email': 'Correo',
-            'created_time': 'Fecha de registro',
-            'download_time': 'Fecha de descarga'
+            'created_time': self.created_time_name_str,
+            'download_time': self.download_time_name_str
         }, inplace=True)
 
     def transform_data_to_db(self):
@@ -74,9 +81,9 @@ class DataHandler:
         self.df_new_leads['Enfermero'] = self.df_new_leads['Enfermero'].map(map_enfermero)
 
         self.df_new_leads['DNI'] = self.df_new_leads['DNI'].apply(lambda x: str(int(x)) if pd.notna(x) else 'None')
-        self.df_new_leads['Fecha de registro'] = pd.to_datetime(self.df_new_leads['Fecha de registro'],
-                                                                format='%d-%m-%Y %H:%M:%S')
-        self.df_new_leads['Fecha de descarga'] = pd.to_datetime(self.df_new_leads['Fecha de descarga'],
+        self.df_new_leads[self.created_time_name_str] = pd.to_datetime(self.df_new_leads[self.created_time_name_str],
+                                                                       format='%d-%m-%Y %H:%M:%S')
+        self.df_new_leads[self.download_time_name_str] = pd.to_datetime(self.df_new_leads[self.download_time_name_str],
                                                                 format='%d-%m-%Y')
 
         return self.df_new_leads
@@ -294,9 +301,21 @@ class DataHandler:
 
         self.df_new_leads['Vendedor_ID'] = self.df_new_leads['Vendedor'].map(lambda x: dict_sellers_ids[x])
 
-        self.df_new_leads.sort_values(by='Fecha de registro', inplace=True)
+        self.df_new_leads.sort_values(by=self.created_time_name_str, inplace=True)
 
         df_new_leads_to_email = self.df_new_leads.drop(columns=['Vendedor_ID'])
+
+        df_columns = [
+            'Formulario', 'Diplomado', self.download_time_name_str,
+            'Red social', 'Grado', 'Enfermero',
+            'Nombre', 'Apellido paterno', 'Apellido materno',
+            'Nombre completo', 'Correo', 'Ciudad',
+            'Celular', 'Vendedor', 'DNI',
+            self.created_time_name_str, 'Leads'
+        ]
+
+        df_new_leads_to_email = df_new_leads_to_email.reindex(columns=df_columns)
+
         dict_lead_detail_to_email = {'dataframe': df_new_leads_to_email, 'sheet_name': 'Detalle'}
 
         dict_sellers_df = pd.DataFrame(self.dict_sellers.items(), columns=['Vendedor', 'Leads'])
@@ -306,7 +325,7 @@ class DataHandler:
 
     # Método sin utilizar en el programa principal
     def export_to_excel(self, start_date_str, end_date_str):
-        self.df_new_leads.sort_values(by='Fecha de registro', inplace=True)
+        self.df_new_leads.sort_values(by=self.created_time_name_str, inplace=True)
         df_new_leads_to_excel = self.df_new_leads.drop(columns=['Vendedor_ID'])
 
         filename = f'LEADS_{"".join((start_date_str.split("-")))}_{"".join(end_date_str.split("-"))}.xlsx'
@@ -314,7 +333,6 @@ class DataHandler:
 
         dict_sellers_df = pd.DataFrame(self.dict_sellers.items(), columns=['Vendedor', 'Leads'])
 
-        # Guardar el DataFrame en un archivo Excel
         df_new_leads_to_excel.to_excel(filename, index=False)
         dict_sellers_df.to_excel(filename_1, index=False)
 

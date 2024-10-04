@@ -60,7 +60,7 @@ def start_program():
                                        RECEIVER_EMAILS,
                                        list_of_list_of_dictionaries,
                                        ATTACHMENT_PATHS)
-
+    #
     LEAD_EMAIL_SENDER.send_emails(CONFIRMATION_EMAIL_SUBJECT,
                                   CONFIRMATION_EMAIL_BODY + html_content,
                                   CONFIRMATION_EMAILS)

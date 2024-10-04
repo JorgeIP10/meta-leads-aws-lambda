@@ -46,6 +46,7 @@ class PostgresLeadsCrud(DBCrud):
                         INSERT INTO meta_leads (
                             ml_red_social,
                             ml_formulario,
+                            ml_diplomado,
                             ml_nombre_persona,
                             ml_ciudad_persona,
                             ml_dni_persona,
@@ -58,10 +59,11 @@ class PostgresLeadsCrud(DBCrud):
                             ml_vendedor_id,
                             per_id
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """, (
                         row['Red social'],
                         row['Formulario'],
+                        row['Diplomado'],
                         row['Nombres'],
                         row['Ciudad'],
                         row['DNI'],
