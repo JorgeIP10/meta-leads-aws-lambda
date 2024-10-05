@@ -1,5 +1,6 @@
 from repositories.db_connection import DBConnection
 
+
 class PostgresConnection(DBConnection):
     def __init__(self, hostname, database, username, password, port, connect):
         self.hostname = hostname

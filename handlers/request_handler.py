@@ -19,7 +19,7 @@ class RequestHandler:
         self.params_form = {
             'access_token': self.access_token_page,
             'limit': 100,
-            'fields': 'id,name,status'
+            'fields': 'id,name,status,context_card'
         }
 
         self.params_leads = {
@@ -31,12 +31,10 @@ class RequestHandler:
         return self.params_all_forms, self.params_form, self.params_leads
 
     def get_forms(self):
-        # Realizamos una solicitud GET a la API
         response = requests.get(self.url_form, params=self.params_all_forms)
 
         forms = []
 
-        # Verificamos el estado de la respuesta
         if response.status_code == 200:
 
             data = response.json()
@@ -52,7 +50,6 @@ class RequestHandler:
 
                     self.get_forms_by_id(forms, form, form_id)
         else:
-            # Si hubo un error, imprimimos el código de estado y el mensaje de error
             print(f'Error {response.status_code}: {response.text}')
             return None
 
@@ -106,7 +103,6 @@ class RequestHandler:
 
                         all_leads.append(lead)
             else:
-                # Si hubo un error, imprimimos el código de estado y el mensaje de error
                 print(f'Error {response.status_code}: {response.text}')
                 return None
 
