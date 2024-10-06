@@ -64,7 +64,7 @@ class PostgresLeadsCrud(DBCrud):
                         row['Red social'],
                         row['Formulario'],
                         row['Diplomado'],
-                        row['Nombres'],
+                        row['Nombre'],
                         row['Ciudad'],
                         row['DNI'],
                         row['Enfermero'],

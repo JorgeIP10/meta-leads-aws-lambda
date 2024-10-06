@@ -28,7 +28,7 @@ class PostgresPersonCrud(DBCrud):
             """, (
                 1,
                 person['DNI'],
-                person['Nombres'],
+                person['Nombre'],
                 person['Apellido paterno'],
                 person['Apellido materno'],
                 person['Celular'],
