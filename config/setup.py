@@ -32,8 +32,8 @@ GMAIL_CONFIRMATION_EMAIL_3 = os.getenv('GMAIL_CONFIRMATION_EMAIL_3')
 
 print(datetime.now())
 
-start_date = datetime.now() - timedelta(hours=1)
-end_date = datetime.now() - timedelta(hours=1)
+start_date = datetime.now() - timedelta(hours=29)
+end_date = datetime.now() - timedelta(hours=29)
 print(start_date)
 
 START_DATE_STR = start_date.strftime('%d-%m-%Y')
