@@ -20,11 +20,12 @@ class PostgresPersonCrud(DBCrud):
                     per_telefono,
                     per_correo,
                     per_direccion,
+                    per_estado_civil,
                     cca_id,
                     aud_fecha_creacion,
                     aud_fecha_modificacion
                 ) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (per_numero_documento) DO NOTHING
                 RETURNING per_id;
             """, (
@@ -36,6 +37,7 @@ class PostgresPersonCrud(DBCrud):
                 '',
                 person['Celular'],
                 person['Correo'],
+                '',
                 '',
                 3,
                 datetime.now(),
