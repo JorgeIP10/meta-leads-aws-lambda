@@ -51,8 +51,6 @@ CONNECTION.create_connection_cursor()
 PERSON_CRUD_CONNECTION = PostgresPersonCrud(CONNECTION)
 LEADS_CRUD_CONNECTION = PostgresLeadsCrud(CONNECTION, PERSON_CRUD_CONNECTION)
 
-SELLER_ID_1 = int(os.getenv('SELLER_ID_1'))
-SELLER_NAME_1 = os.getenv('SELLER_NAME_1')
 SELLER_ID_2 = int(os.getenv('SELLER_ID_2'))
 SELLER_NAME_2 = os.getenv('SELLER_NAME_2')
 SELLER_ID_3 = int(os.getenv('SELLER_ID_3'))
@@ -64,14 +62,6 @@ SELLER_NAME_5 = os.getenv('SELLER_NAME_5')
 
 sellers_queue = queue.PriorityQueue()
 SELLERS_DATA_STRUCTURE = SellerPriorityDataStructure(SellersQueueHandler(sellers_queue))
-SELLERS_DATA_STRUCTURE.add_seller(
-    {
-        'id': SELLER_ID_1,
-        'name': SELLER_NAME_1,
-        'fixed_amount_of_leads': 1,
-        'additional_leads': 0
-    }, 2
-)
 SELLERS_DATA_STRUCTURE.add_seller(
     {
         'id': SELLER_ID_2,

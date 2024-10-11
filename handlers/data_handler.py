@@ -322,20 +322,3 @@ class DataHandler:
         dict_lead_sellers_to_email = {'dataframe': dict_sellers_df, 'sheet_name': 'Resumen'}
 
         return dict_lead_detail_to_email, dict_lead_sellers_to_email
-
-    # Método sin utilizar en el programa principal
-    def export_to_excel(self, start_date_str, end_date_str):
-        self.df_new_leads.sort_values(by=self.created_time_name_str, inplace=True)
-        df_new_leads_to_excel = self.df_new_leads.drop(columns=['Vendedor_ID'])
-
-        filename = f'LEADS_{"".join((start_date_str.split("-")))}_{"".join(end_date_str.split("-"))}.xlsx'
-        filename_1 = f'LEADS_VENDEDORES_{"".join((start_date_str.split("-")))}_{"".join(end_date_str.split("-"))}.xlsx'
-
-        dict_sellers_df = pd.DataFrame(self.dict_sellers.items(), columns=['Vendedor', 'Leads'])
-
-        df_new_leads_to_excel.to_excel(filename, index=False)
-        dict_sellers_df.to_excel(filename_1, index=False)
-
-        print(f'Datos guardados en {filename}')
-
-        return self.df_new_leads
