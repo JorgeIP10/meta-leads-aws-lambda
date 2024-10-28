@@ -5,6 +5,10 @@ class SellerPriorityDataStructure:
     def add_seller(self, seller, priority):
         self.priority_sellers_handler.add(seller, priority)
 
+    def add_sellers(self, sellers):
+        for seller in sellers:
+            self.add_seller(seller, seller['priority'])
+
     def update_seller(self, seller_id, new_data):
         self.priority_sellers_handler.update(seller_id, new_data)
 
