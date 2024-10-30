@@ -25,7 +25,7 @@ class RequestHandler:
         self.params_leads = {
             'access_token': self.access_token_page,
             'limit': 100,
-            'fields': 'created_time,field_data,form_id,platform'
+            'fields': 'created_time,field_data,form_id,platform,campaign_id,campaign_name'
         }
 
         return self.params_all_forms, self.params_form, self.params_leads
@@ -77,7 +77,7 @@ class RequestHandler:
         all_leads = []
 
         start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
-        end_date = datetime.strptime(end_date_str, "%d-%m-%Y") + timedelta(days=1) - timedelta(seconds=1)
+        end_date = datetime.strptime(end_date_str, "%d-%m-%Y") - timedelta(seconds=1)
 
         for form in forms:
             form_id = form['id']

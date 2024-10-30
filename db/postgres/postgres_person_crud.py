@@ -16,12 +16,12 @@ class PostgresPersonCrud(DBCrud):
                     per_nombres,
                     per_apellido_paterno,
                     per_apellido_materno,
-                    per_genero,
+                    gen_id,
                     per_telefono,
                     per_correo,
                     per_direccion,
-                    per_estado_civil,
-                    cca_id,
+                    escv_id,
+                    pscg_id,
                     aud_fecha_creacion,
                     aud_fecha_modificacion
                 ) 
@@ -34,12 +34,12 @@ class PostgresPersonCrud(DBCrud):
                 person['Nombre'],
                 person['Apellido paterno'],
                 person['Apellido materno'],
-                '',
+                None,
                 person['Celular'],
                 person['Correo'],
                 '',
-                '',
-                3,
+                None,
+                7,
                 datetime.now(),
                 datetime.now()
             ))

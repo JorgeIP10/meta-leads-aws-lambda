@@ -3,7 +3,6 @@ import queue
 import itertools
 
 
-# Class for handling sellers with queue library
 class SellersQueueHandler(PrioritySellersHandler):
     def __init__(self, sellers_queue: queue.PriorityQueue):
         self.sellers_queue = sellers_queue

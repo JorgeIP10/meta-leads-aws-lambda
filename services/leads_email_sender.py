@@ -14,13 +14,13 @@ class LeadEmailSender(EmailSender):
         self.username = username
         self.password = password
 
-    def create_excel_attachment(self, dictionaries_list):
-        # Guardar el DataFrame en un buffer BytesIO
+    def create_excel_attachment(self, list_of_list_of_dictionaries):
         buffer = BytesIO()
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            for dictionary in dictionaries_list:
-                dictionary['dataframe'].to_excel(writer, index=False, sheet_name=dictionary['sheet_name'])
-                # dataframe.to_excel(writer, index=False, sheet_name='Resumen')
+            for list_of_dictionaries in list_of_list_of_dictionaries:
+                for dictionary in list_of_dictionaries:
+                    dictionary['dataframe'].to_excel(writer, index=False, sheet_name=dictionary['sheet_name'])
+                    # dataframe.to_excel(writer, index=False, sheet_name='Resumen')
         buffer.seek(0)
 
         return buffer
@@ -33,7 +33,6 @@ class LeadEmailSender(EmailSender):
             msg['Subject'] = subject
             msg.set_content(body, subtype='html')
 
-            # Enviar el correo
             with smtplib.SMTP_SSL(self.smtp_server, self.port) as server:
                 server.login(self.username, self.password)
                 server.send_message(msg)
@@ -48,9 +47,8 @@ class LeadEmailSender(EmailSender):
             msg['Subject'] = subject
             msg.set_content(body, subtype='html')
 
-            # Crear y adjuntar un archivo Excel por cada DataFrame en la lista
-            for index, list_of_dictionaries in enumerate(list_of_list_of_dictionaries):
-                buffer = self.create_excel_attachment(list_of_dictionaries)
+            for index, filename in enumerate(filename_list):
+                buffer = self.create_excel_attachment(list_of_list_of_dictionaries)
                 part = MIMEBase('application', 'octet-stream')
                 part.set_payload(buffer.read())
                 encoders.encode_base64(part)
@@ -58,7 +56,6 @@ class LeadEmailSender(EmailSender):
                 msg.add_attachment(part.get_payload(decode=True), maintype='application', subtype='octet-stream',
                                    filename=filename_list[index])
 
-            # Enviar el correo
             with smtplib.SMTP_SSL(self.smtp_server, self.port) as server:
                 server.login(self.username, self.password)
                 server.send_message(msg)
