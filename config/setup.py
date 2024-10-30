@@ -98,7 +98,7 @@ for sellers_campaign in sellers_campaigns:
     })
 
 
-receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
+receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_1]
 confirmation_emails = [GMAIL_CONFIRMATION_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_3]
 lead_email_sender = LeadEmailSender('smtp.gmail.com',
                                     465,
