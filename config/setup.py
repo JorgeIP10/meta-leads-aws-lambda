@@ -11,11 +11,11 @@ from handlers.sellers.sellers_queue_handler import SellersQueueHandler
 import queue
 from services.leads_email_sender import LeadEmailSender
 from templates.html_template_renderer import HTMLTemplateRenderer
-from dotenv import load_dotenv
 import pandas as pd
-
-# Load environment variables from the .env file
-load_dotenv()
+# from dotenv import load_dotenv
+#
+# # Load environment variables from the .env file
+# load_dotenv()
 
 
 class Setup:
@@ -102,8 +102,10 @@ for sellers_campaign in sellers_campaigns:
     })
 
 
-receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_1]
-confirmation_emails = [GMAIL_CONFIRMATION_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_3]
+# receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2]
+# confirmation_emails = [GMAIL_CONFIRMATION_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_3]
+receiver_emails = [GMAIL_CONFIRMATION_EMAIL_1]
+confirmation_emails = [GMAIL_CONFIRMATION_EMAIL_1]
 lead_email_sender = LeadEmailSender('smtp.gmail.com',
                                     465,
                                     GMAIL_SENDER_EMAIL,

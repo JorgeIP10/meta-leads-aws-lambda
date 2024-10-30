@@ -22,7 +22,7 @@ def start_program():
     forms = request_handler.get_forms()
     new_leads = request_handler.get_leads(forms, setup_instance.start_date_str, setup_instance.end_date_str)
 
-    setup_instance.campaigns_crud_connection.create(new_leads)
+    # setup_instance.campaigns_crud_connection.create(new_leads)
 
     data_handler = DataHandler(setup_instance.campaigns_seller_leads_object_list, historical_sellers_repartition_list, new_leads)
     data_handler.new_leads_to_dataframe()
@@ -30,7 +30,7 @@ def start_program():
     html_content = ''
 
     for leads_to_email_dict_list in leads_to_email_dict_lists:
-        dict_lead_detail_to_email, dict_lead_sellers_to_email = leads_to_email_dict_list
+        _, dict_lead_sellers_to_email = leads_to_email_dict_list
         html_content += setup_instance.html_template_renderer.render(dict_lead_sellers_to_email['dataframe'])
         html_content += '<br>'
 
@@ -46,4 +46,4 @@ def start_program():
 
     new_leads_to_db_list = data_handler.transform_data_to_db()
 
-    setup_instance.leads_crud_connection.create(new_leads_to_db_list)
+    # setup_instance.leads_crud_connection.create(new_leads_to_db_list)
