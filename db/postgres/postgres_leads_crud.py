@@ -30,6 +30,9 @@ class PostgresLeadsCrud(DBCrud):
         object_rows_list = []
 
         for seller_ids_campaign in seller_ids_campaigns_list:
+            if not seller_ids_campaign['sellers_ids']:
+                continue
+
             placeholders = ', '.join(['%s'] * len(seller_ids_campaign['sellers_ids']))
             query = f"SELECT * FROM meta_leads WHERE ml_vendedor_id IN ({placeholders});"
             self.db_connection.cursor.execute(query, seller_ids_campaign['sellers_ids'])
