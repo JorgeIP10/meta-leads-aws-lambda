@@ -69,7 +69,7 @@ class PostgresLeadsCrud(DBCrud):
                 for index, row in new_leads_to_db.iterrows():
                     person_id = self.person_crud.create(row)
                     general_campaign_id = 1
-                    if row['Nombre de campaña'] == 'Campaña Inversionistas':
+                    if row['Nombre de campaña'] == 'Inversionistas OEA':
                         general_campaign_id = 2
 
                     if person_id:

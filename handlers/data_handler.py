@@ -48,11 +48,7 @@ class DataHandler:
                                       f"{lead_info['apellido_materno']}")
 
             for campaigns_seller_leads_object in self.campaigns_seller_leads_object_list:
-                if ((lead.get('campaign_name') != 'Campaña Inversionistas')
-                        and (campaigns_seller_leads_object['campaign'] == 'Campaña OEA')):
-                    campaigns_seller_leads_object['leads'].append(lead_info)
-                elif lead.get('campaign_name') == campaigns_seller_leads_object['campaign']:
-                    campaigns_seller_leads_object['leads'].append(lead_info)
+                campaigns_seller_leads_object['leads'].append(lead_info)
 
         for index, campaign_seller_leads_object in enumerate(self.campaigns_seller_leads_object_list):
             leads = pd.DataFrame(campaign_seller_leads_object['leads'])
