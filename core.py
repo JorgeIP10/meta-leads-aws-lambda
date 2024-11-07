@@ -21,6 +21,7 @@ def start_program():
     request_handler = RequestHandler(setup_instance.access_token_page, setup_instance.page_id, setup_instance.url_base)
     forms = request_handler.get_forms()
     new_leads = request_handler.get_leads(forms, setup_instance.start_date_str, setup_instance.end_date_str)
+    print(f'Cantidad de leads nuevos: {len(new_leads)}')
 
     setup_instance.campaigns_crud_connection.create(new_leads)
 

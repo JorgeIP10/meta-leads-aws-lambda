@@ -318,6 +318,7 @@ class DataHandler:
             print(f'Total de leads: {total_leads}')
             print(f'Total de leads asignados: {total_count}')
 
+        print(sellers_dict_list)
         leads_to_email_dict_list = []
         count = 1
 
