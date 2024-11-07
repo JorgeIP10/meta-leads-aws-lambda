@@ -113,11 +113,11 @@ filename_leads_detail = f'LEADS_{"".join((setup_instance.start_date_str.split("-
 setup_instance.attachment_paths = [filename_leads_detail]
 
 setup_instance.lead_email_subject = 'Reporte de Leads'
-setup_instance.lead_email_body = (f'<p>Se adjunta el reporte de leads y su repartición del día'
+setup_instance.lead_email_body = (f'<p>Se adjunta el reporte de leads y su repartición del día '
                                   f'<b>{setup_instance.start_date_str}</b>.</p>')
 
 setup_instance.confirmation_email_subject = 'Confirmación de envío de reporte de Leads'
-setup_instance.confirmation_email_body = (f'<p>Se enviaron los reportes de leads del día'
+setup_instance.confirmation_email_body = (f'<p>Se enviaron los reportes de leads del día '
                                           f'<b>{setup_instance.start_date_str}</b> a <b>{GMAIL_RECEIVER_EMAIL_1}</b>'
                                           f'y a <b>{GMAIL_RECEIVER_EMAIL_2}</b>.</p>')
 
