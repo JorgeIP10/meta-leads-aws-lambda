@@ -47,11 +47,11 @@ class DataHandler:
                                       f"{lead_info['apellido_paterno']} "
                                       f"{lead_info['apellido_materno']}")
 
-            if lead_info['campaign_name'] != 'Inversionistas OEA':
+            if lead_info['campaign_name'] != 'CAMPAÑA AREQUIPA':
                 lead_info['campaign_name'] = 'Campaña OEA'
 
             for campaigns_seller_leads_object in self.campaigns_seller_leads_object_list:
-                if (campaigns_seller_leads_object['campaign'] == 'Inversionistas OEA'
+                if (campaigns_seller_leads_object['campaign'] == 'CAMPAÑA AREQUIPA'
                         and lead_info['campaign_name'] == 'Campaña OEA'):
                     continue
                 campaigns_seller_leads_object['leads'].append(lead_info)

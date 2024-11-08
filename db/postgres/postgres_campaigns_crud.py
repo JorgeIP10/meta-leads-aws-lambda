@@ -21,7 +21,7 @@ class PostgresCampaignsCrud(DBCrud):
 
                 if not campaign:
                     general_campaign_id = 1
-                    if lead['campaign_name'] == 'Inversionistas OEA':
+                    if lead['campaign_name'] == 'CAMPAÑA AREQUIPA':
                         general_campaign_id = 2
 
                     self.db_connection.cursor.execute("""
