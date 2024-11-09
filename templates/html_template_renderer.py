@@ -4,7 +4,8 @@ from templates.template_renderer import TemplateRenderer
 class HTMLTemplateRenderer(TemplateRenderer):
     def render(self, context):
         # Comenzar con la estructura básica de una tabla HTML
-        html_content = '''
+        html_content = f'''
+        <b>{context['campaign_name'][0]}:</b>
         <table border="1" style="border-collapse: collapse; width: 50%; table-layout: fixed;">
             <thead>
                 <tr>

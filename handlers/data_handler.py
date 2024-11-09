@@ -51,8 +51,7 @@ class DataHandler:
                 lead_info['campaign_name'] = 'Campaña OEA'
 
             for campaigns_seller_leads_object in self.campaigns_seller_leads_object_list:
-                if (campaigns_seller_leads_object['campaign'] == 'CAMPAÑA AREQUIPA'
-                        and lead_info['campaign_name'] == 'Campaña OEA'):
+                if campaigns_seller_leads_object['campaign'] != lead_info['campaign_name']:
                     continue
                 campaigns_seller_leads_object['leads'].append(lead_info)
 
@@ -103,6 +102,8 @@ class DataHandler:
         return new_leads_to_db_list
 
     def prepare_data(self, campaigns_seller_leads_object):
+        self.highest_priority_sellers_list = []
+        self.highest_priority_sellers_count = 0
         sellers_distribute = campaigns_seller_leads_object['sellers_data_structure'].get_sellers_list()
         len_new_leads_to_distribute = len(campaigns_seller_leads_object['leads'])
         len_sellers = len(sellers_distribute)

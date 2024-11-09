@@ -33,8 +33,10 @@ def start_program():
     html_content = ''
 
     for leads_to_email_dict_list in leads_to_email_dict_lists:
-        _, dict_lead_sellers_to_email = leads_to_email_dict_list
-        html_content += setup_instance.html_template_renderer.render(dict_lead_sellers_to_email['dataframe'])
+        campaign_name = leads_to_email_dict_list[0]['dataframe']['Nombre de campaña'].unique()[0]
+        dict_lead_sellers_to_email = leads_to_email_dict_list[1]['dataframe']
+        dict_lead_sellers_to_email['campaign_name'] = campaign_name
+        html_content += setup_instance.html_template_renderer.render(dict_lead_sellers_to_email)
         html_content += '<br>'
 
     setup_instance.lead_email_sender.send_lead_emails(setup_instance.lead_email_subject,
