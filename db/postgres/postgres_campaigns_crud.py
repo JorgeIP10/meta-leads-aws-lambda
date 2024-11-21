@@ -23,6 +23,8 @@ class PostgresCampaignsCrud(DBCrud):
                     general_campaign_id = 1
                     if lead['campaign_name'] == 'CAMPAÑA AREQUIPA':
                         general_campaign_id = 2
+                    elif lead['campaign_name'] == 'CAMPAÑA - TRABAJO EN AREQUIPA':
+                        general_campaign_id = 3
 
                     self.db_connection.cursor.execute("""
                     INSERT INTO tbl_campanas_meta (

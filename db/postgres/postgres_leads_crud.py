@@ -71,6 +71,8 @@ class PostgresLeadsCrud(DBCrud):
                     general_campaign_id = 1
                     if row['Nombre de campaña'] == 'CAMPAÑA AREQUIPA':
                         general_campaign_id = 2
+                    elif row['Nombre de campaña'] == 'CAMPAÑA - TRABAJO EN AREQUIPA':
+                        general_campaign_id = 3
 
                     if person_id:
                         self.db_connection.cursor.execute("""
