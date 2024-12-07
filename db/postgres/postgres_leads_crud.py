@@ -69,10 +69,24 @@ class PostgresLeadsCrud(DBCrud):
                 for index, row in new_leads_to_db.iterrows():
                     person_id = self.person_crud.create(row)
                     general_campaign_id = 1
-                    if row['Nombre de campaña'] == 'CAMPAÑA AREQUIPA':
-                        general_campaign_id = 2
-                    elif row['Nombre de campaña'] == 'CAMPAÑA - TRABAJO EN AREQUIPA':
-                        general_campaign_id = 3
+
+                    self.db_connection.cursor.execute(
+                        """
+                        SELECT cmeg_id FROM tbl_campanas_meta_general WHERE cmeg_id != 1;
+                        """
+                    )
+
+                    rows = self.db_connection.cursor.fetchall()
+                    column_names = [desc[0] for desc in self.db_connection.cursor.description]
+                    object_rows = []
+
+                    for item in rows:
+                        object_rows.append(dict(zip(column_names, item)))
+
+                    for object_row in object_rows:
+                        if row['Nombre de campaña'] == object_row['cmeg_nombre']:
+                            general_campaign_id = object_row['cmeg_id']
+                            break
 
                     if person_id:
                         self.db_connection.cursor.execute("""

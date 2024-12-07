@@ -21,10 +21,24 @@ class PostgresCampaignsCrud(DBCrud):
 
                 if not campaign:
                     general_campaign_id = 1
-                    if lead['campaign_name'] == 'CAMPAÑA AREQUIPA':
-                        general_campaign_id = 2
-                    elif lead['campaign_name'] == 'CAMPAÑA - TRABAJO EN AREQUIPA':
-                        general_campaign_id = 3
+
+                    self.db_connection.cursor.execute(
+                        """
+                        SELECT cmeg_id FROM tbl_campanas_meta_general WHERE cmeg_id != 1;
+                        """
+                    )
+
+                    rows = self.db_connection.cursor.fetchall()
+                    column_names = [desc[0] for desc in self.db_connection.cursor.description]
+                    object_rows = []
+
+                    for item in rows:
+                        object_rows.append(dict(zip(column_names, item)))
+
+                    for row in object_rows:
+                        if lead['campaign_name'] == row['cmeg_nombre']:
+                            general_campaign_id = row['cmeg_id']
+                            break
 
                     self.db_connection.cursor.execute("""
                     INSERT INTO tbl_campanas_meta (
