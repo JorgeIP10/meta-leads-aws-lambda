@@ -49,7 +49,7 @@ class DataHandler:
 
             if (lead_info['campaign_name'] != 'CAMPAÑA INVERSIONISTAS - AUDITORÍA MÉDICA'
                     and lead_info['campaign_name'] != 'CAMPAÑA INVERSIONISTAS - AUDITORÍA EN SALUD'
-                    and lead_info['campaign_name'] != 'INVERSIÓN FLAMITA'):
+                    and lead_info['campaign_name'] != 'CAMPAÑA - INVERSIONES FLAMITA'):
                 lead_info['campaign_name'] = 'Campaña OEA'
 
             for campaigns_seller_leads_object in self.campaigns_seller_leads_object_list:
