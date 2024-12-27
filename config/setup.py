@@ -67,8 +67,8 @@ GMAIL_CONFIRMATION_EMAIL_1 = os.getenv('GMAIL_CONFIRMATION_EMAIL_1')
 GMAIL_CONFIRMATION_EMAIL_2 = os.getenv('GMAIL_CONFIRMATION_EMAIL_2')
 GMAIL_CONFIRMATION_EMAIL_3 = os.getenv('GMAIL_CONFIRMATION_EMAIL_3')
 
-START_DATE_STR = '25-12-2024'
-END_DATE_STR = '25-12-2024'
+START_DATE_STR = ''
+END_DATE_STR = ''
 
 connection = PostgresConnection(os.getenv('HOSTNAME'),
                                 os.getenv('DATABASE'),
@@ -98,7 +98,7 @@ for sellers_campaign in sellers_campaigns:
     })
 
 
-receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_RECEIVER_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_1]
+receiver_emails = [GMAIL_RECEIVER_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_1]
 confirmation_emails = [GMAIL_CONFIRMATION_EMAIL_1, GMAIL_CONFIRMATION_EMAIL_2, GMAIL_CONFIRMATION_EMAIL_3]
 lead_email_sender = LeadEmailSender('smtp.gmail.com',
                                     465,
