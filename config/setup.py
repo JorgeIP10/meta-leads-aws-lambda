@@ -62,7 +62,6 @@ URL_BASE = os.getenv('URL_BASE')
 GMAIL_SENDER_EMAIL = os.getenv('GMAIL_SENDER_EMAIL')
 GMAIL_SENDER_PASSWORD = os.getenv('GMAIL_SENDER_PASSWORD')
 GMAIL_RECEIVER_EMAIL_1 = os.getenv('GMAIL_RECEIVER_EMAIL_1')
-GMAIL_RECEIVER_EMAIL_2 = os.getenv('GMAIL_RECEIVER_EMAIL_2')
 GMAIL_CONFIRMATION_EMAIL_1 = os.getenv('GMAIL_CONFIRMATION_EMAIL_1')
 GMAIL_CONFIRMATION_EMAIL_2 = os.getenv('GMAIL_CONFIRMATION_EMAIL_2')
 GMAIL_CONFIRMATION_EMAIL_3 = os.getenv('GMAIL_CONFIRMATION_EMAIL_3')
@@ -119,6 +118,6 @@ setup_instance.lead_email_body = (f'<p>Se adjunta el reporte de leads y su repar
 setup_instance.confirmation_email_subject = 'Confirmación de envío de reporte de Leads'
 setup_instance.confirmation_email_body = (f'<p>Se enviaron los reportes de leads del día '
                                           f'<b>{setup_instance.start_date_str}</b> a <b>{GMAIL_RECEIVER_EMAIL_1}</b>'
-                                          f'y a <b>{GMAIL_RECEIVER_EMAIL_2}</b>.</p>')
+                                          f'.</p>')
 
 setup_instance.html_template_renderer = HTMLTemplateRenderer()
