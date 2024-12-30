@@ -72,7 +72,7 @@ class PostgresLeadsCrud(DBCrud):
 
                     self.db_connection.cursor.execute(
                         """
-                        SELECT cmeg_id FROM tbl_campanas_meta_general WHERE cmeg_id != 1;
+                        SELECT cmeg_id, cmeg_nombre FROM tbl_campanas_meta_general WHERE cmeg_id != 1;
                         """
                     )
 
