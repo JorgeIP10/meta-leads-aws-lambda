@@ -17,6 +17,8 @@ class DataHandler:
         self.download_time_name_str = 'Fecha de descarga'
 
     def new_leads_to_dataframe(self):
+        campaigns = [object['campaign'] for object in self.campaigns_seller_leads_object_list]
+
         for lead in self.new_leads:
             lead_info = {
                 'form_name': lead.get('form_name', '').upper(),
@@ -47,9 +49,7 @@ class DataHandler:
                                       f"{lead_info['apellido_paterno']} "
                                       f"{lead_info['apellido_materno']}")
 
-            if (lead_info['campaign_name'] != 'CAMPAÑA INVERSIONISTAS - AUDITORÍA MÉDICA'
-                    and lead_info['campaign_name'] != 'CAMPAÑA INVERSIONISTAS - AUDITORÍA EN SALUD'
-                    and lead_info['campaign_name'] != 'CAMPAÑA - INVERSIONES FLAMITA'):
+            if (lead_info['campaign_name'] not in campaigns):
                 lead_info['campaign_name'] = 'Campaña OEA'
 
             for campaigns_seller_leads_object in self.campaigns_seller_leads_object_list:
