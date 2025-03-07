@@ -40,7 +40,8 @@ class DataHandler:
             }
 
             for field in lead.get('field_data', []):
-                lead_info[field['name']] = field['values'][0]
+                if field.get('values'):
+                    lead_info[field['name']] = field['values'][0]
 
                 if field['name'] == 'phone_number' and field['values'][0].startswith('+51'):
                     lead_info[field['name']] = field['values'][0].split('+51')[1]
