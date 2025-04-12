@@ -22,3 +22,11 @@ This repository implements a way to get leads from a Meta page and send them to 
 | **GMAIL_SENDER_PASSWORD**  |         Password of the sender (app password)          |
 | **GMAIL_RECEIVER_EMAIL_X** |       Gmail of the person X receiving the leads        |
 |**GMAIL_CONFIRMATION_EMAIL_X**| Gmail of the person X receiving the confirmation email |
+
+# For development with Docker
+Add main.py to your path:
+```py
+from core import start_program
+
+start_program()
+```
