@@ -35,16 +35,30 @@ class DataHandler:
                 'city': '',
                 'phone_number': '',
                 'dni': '',
+                '¿cómo_te_contactamos?': '',
                 'created_time': lead.get('created_time', ''),
                 'campaign_name': lead.get('campaign_name', 'Sin campaña')
             }
 
+            mapper = {
+                'dni_(peru)': 'dni',
+                'ciudad': 'city',
+                'correo_electrónico': 'email',
+                'número_de_teléfono': 'phone_number',
+            }
+
             for field in lead.get('field_data', []):
                 if field.get('values'):
-                    lead_info[field['name']] = field['values'][0]
+                    if field['name'] not in lead_info.keys():
+                        for key, value in mapper.items():
+                            if field['name'] == key:
+                                lead_info[value] = field['values'][0]
+                                break
+                    else:
+                        lead_info[field['name']] = field['values'][0]
 
-                if field['name'] == 'phone_number' and field['values'][0].startswith('+51'):
-                    lead_info[field['name']] = field['values'][0].split('+51')[1]
+                    if lead_info['phone_number'].startswith('+51'):
+                        lead_info['phone_number'] = lead_info['phone_number'].split('+51')[1]
 
             lead_info['full_name'] = (f"{lead_info['nombre']} "
                                       f"{lead_info['apellido_paterno']} "
@@ -75,6 +89,7 @@ class DataHandler:
                 '¿cuál_es_tu_nivel_de_estudios?': 'Grado',
                 'phone_number': 'Celular',
                 'email': 'Correo',
+                '¿cómo_te_contactamos?': 'Medio de contacto',
                 'created_time': self.created_time_name_str,
                 'download_time': self.download_time_name_str,
                 'campaign_name': 'Nombre de campaña'
@@ -335,7 +350,7 @@ class DataHandler:
                 'Nombre de campaña', 'Formulario', 'Diplomado', self.download_time_name_str,
                 'Red social', 'Grado', 'Enfermero',
                 'Nombre', 'Apellido paterno', 'Apellido materno',
-                'Nombre completo', 'Correo', 'Ciudad',
+                'Nombre completo', 'Correo', 'Medio de contacto', 'Ciudad',
                 'Celular', 'Vendedor', 'DNI',
                 self.created_time_name_str, 'Leads'
             ]
